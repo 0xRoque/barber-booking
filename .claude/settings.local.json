@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.prisma.io)",
+      "Bash(npm install *)",
+      "Bash(git rm *)"
+    ]
+  }
+}
