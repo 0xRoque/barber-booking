@@ -3,7 +3,14 @@
     "allow": [
       "WebFetch(domain:www.prisma.io)",
       "Bash(npm install *)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "WebFetch(domain:authjs.dev)",
+      "Bash(npm uninstall *)",
+      "Bash(npx prisma *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/@auth/prisma-adapter/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/next-auth/package.json'\\).version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/@prisma/client/package.json'\\).version\\)\")"
     ]
   }
 }
