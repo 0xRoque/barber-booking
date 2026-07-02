@@ -14,13 +14,14 @@ model User {
   role          String    @default("CLIENT")
   image         String?
   emailVerified DateTime?
-  timeSlots TimeSlot[]
+  BlockedSlotss BlockedSlots[]
   bookings  Booking[]
   accounts  Account[]
   sessions  Session[]
+  barberConfig BarberConfig?
 }
 
-model TimeSlot {
+model BlockedSlots {
   id        String   @id @default(cuid())
   barberId  String
   barber    User     @relation(fields: [barberId], references: [id])
@@ -36,7 +37,7 @@ model Booking {
   clientId String
   client   User          @relation(fields: [clientId], references: [id])
   slotId   String        @unique
-  slot     TimeSlot      @relation(fields: [slotId], references: [id])
+  slot     BlockedSlots      @relation(fields: [slotId], references: [id])
   status   String        @default("PENDING")
 }
 
@@ -74,5 +75,16 @@ model VerificationToken {
 }
 
 
+model BarberConfig{
+  id String @id @default(cuid())
+  barberId String @unique
+  barber   User   @relation(fields: [barberId], references: [id])
+  workStartTime  String
+  workEndTime String
+  lunchStart String
+  lunchEnd String
+  slotDuration Int
+  workDays String
+}
 
 
