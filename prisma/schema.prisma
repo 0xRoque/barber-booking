@@ -8,37 +8,55 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  name      String?
-  email     String    @unique
-  role          String    @default("CLIENT")
+  id            String         @id @default(cuid())
+  name          String?
+  email         String         @unique
+  role          String         @default("CLIENT")
   image         String?
   emailVerified DateTime?
-  BlockedSlotss BlockedSlots[]
-  bookings  Booking[]
-  accounts  Account[]
-  sessions  Session[]
-  barberConfig BarberConfig?
+  barberConfig  BarberConfig?
+  dayOffs       DayOff[]
+  slots         Slot[]
+  bookings      Booking[]
+  accounts      Account[]
+  sessions      Session[]
 }
 
-model BlockedSlots {
+model BarberConfig {
+  id            String  @id @default(cuid())
+  barberId      String  @unique
+  barber        User    @relation(fields: [barberId], references: [id])
+  weekdayStart  String
+  weekdayEnd    String
+  weekendStart  String
+  weekendEnd    String
+}
+
+model DayOff {
+  id         String @id @default(cuid())
+  barberId   String
+  barber     User   @relation(fields: [barberId], references: [id])
+  dayOfWeek  Int
+}
+
+model Slot {
   id        String   @id @default(cuid())
   barberId  String
   barber    User     @relation(fields: [barberId], references: [id])
-  date      DateTime
-  startTime DateTime
-  endTime   DateTime
-  isBlocked Boolean
+  date      String
+  startTime String
+  status    String
+  clientId  String?
   booking   Booking?
 }
 
 model Booking {
-  id       String        @id @default(cuid())
-  clientId String
-  client   User          @relation(fields: [clientId], references: [id])
-  slotId   String        @unique
-  slot     BlockedSlots      @relation(fields: [slotId], references: [id])
-  status   String        @default("PENDING")
+  id        String  @id @default(cuid())
+  clientId  String
+  client    User    @relation(fields: [clientId], references: [id])
+  slotId    String  @unique
+  slot      Slot    @relation(fields: [slotId], references: [id])
+  status    String  @default("PENDING")
 }
 
 model Account {
@@ -73,18 +91,3 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
-
-
-model BarberConfig{
-  id String @id @default(cuid())
-  barberId String @unique
-  barber   User   @relation(fields: [barberId], references: [id])
-  workStartTime  String
-  workEndTime String
-  lunchStart String
-  lunchEnd String
-  slotDuration Int
-  workDays String
-}
-
-
