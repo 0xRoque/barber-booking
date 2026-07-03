@@ -1,5 +1,6 @@
 import { auth, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import SlotGrid from "./SlotGrid"
 
 function generateSlots(start: string, end: string) {
   const slots: string[] = [];
@@ -27,14 +28,15 @@ export default async function BarberDashboard() {
   const config = await prisma.barberConfig.findUnique({
     where: { barberId: barberId },
   });
-  const slots = generateSlots(config?.weekdayStart ?? "08:00", config?.weekdayEnd ?? "20:00")
+  const slots = generateSlots(
+    config?.weekdayStart ?? "08:00",
+    config?.weekdayEnd ?? "20:00",
+  );
   return (
     <div className="div">
       <h1>Barber Dashbord</h1>
 
-      <div id="slots">
-         {slots.map((slot)=>(<div key={slot}>{slot}</div>))}
-      </div>
+      <SlotGrid slots={slots} />
 
       <form
         action={async () => {
