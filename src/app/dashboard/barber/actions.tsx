@@ -1,5 +1,4 @@
 "use server"
-
 import { prisma } from "@/lib/prisma"
 
 
@@ -12,5 +11,11 @@ export async function blockSlot(barberId: string, date: string, startTime: strin
             status,
         }
     })
+}
+
+export async function getBlockedSlots(barberId: string, date: string) {
+  return await prisma.slot.findMany({
+    where: { barberId, date }
+  })
 }
 

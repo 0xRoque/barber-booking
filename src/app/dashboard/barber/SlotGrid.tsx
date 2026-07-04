@@ -2,17 +2,22 @@
 import { useState, useEffect } from "react";
 import { DayPicker } from "react-day-picker"
 import "react-day-picker/dist/style.css"
-import { blockSlot } from "./actions"
+import { blockSlot, getBlockedSlots } from "./actions"
 
 export default function SlotGrid({ slots,barberId }: { slots: string[],barberId: string }) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
+  const [blockedSlots, setBlockedSlots] = useState<string[]>([])
 
   useEffect(() => {
     setSelectedDate(new Date());
   }, []);
 
-  if (!selectedDate) return null;
+  useEffect(() => {
+    if (!selectedDate) return
+    getBlockedSlots(barberId, selectedDate.toISOString().split("T")[0])
+      .then((slots) => setBlockedSlots(slots.map((s) => s.startTime)))
+  }, [selectedDate])
 
   return (
     <div>
@@ -26,9 +31,9 @@ export default function SlotGrid({ slots,barberId }: { slots: string[],barberId:
   captionLayout="dropdown"
 />
       </div>
-      <div id="slotsGrid">
+      <div id="slotsGrid" className="grid grid-cols-2 gap-2">
         {slots.map((slot) => (
-          <div key={slot} onClick={() => setSelectedSlot(slot)}>{slot}</div>
+          <div key={slot} onClick={() => setSelectedSlot(slot)} className={`p-2 text-center border rounded cursor-pointer ${blockedSlots.includes(slot) ? "bg-red-400 text-white" : "hover:bg-gray-100"}`}>{slot}</div>
         ))}
         {selectedSlot && (
           <div>
