@@ -33,19 +33,22 @@ export default async function BarberDashboard() {
     config?.weekdayEnd ?? "20:00",
   );
   return (
-    <div className="div">
-      <h1>Barber Dashbord</h1>
-
-      <SlotGrid slots={slots} />
-
-      <form
-        action={async () => {
-          "use server";
-          await signOut();
-        }}
-      >
-        <button type="submit">Sign Out</button>
-      </form>
+    <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#1C1C1E]">
+      <header className="bg-white dark:bg-[#2C2C2E] border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex items-center justify-between">
+        <div>
+          <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide">Bem-vindo</p>
+          <h1 className="text-xl font-semibold text-gray-900 dark:text-white">{session?.user?.name}</h1>
+        </div>
+        <form action={async () => { "use server"; await signOut(); }}>
+          <button type="submit" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sair
+          </button>
+        </form>
+      </header>
+      <main className="max-w-4xl mx-auto px-6 py-8">
+        <SlotGrid slots={slots} barberId={barberId}/>
+      </main>
     </div>
   );
 }
