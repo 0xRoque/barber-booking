@@ -19,3 +19,9 @@ export async function getBlockedSlots(barberId: string, date: string) {
   })
 }
 
+
+export async function unblockSlot(barberId: string, date: string, startTime: string){
+  await prisma.slot.deleteMany({
+    where: {barberId, date, startTime}
+  })
+}
