@@ -1,7 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import DayOffPicker from "./DayOffPicker"
 
-export default function schedule() {
+export default async function schedule() {
+  const session = await auth()
+  const barberId = session?.user?.id as string
+  const daysOff = await prisma.dayOff.findMany({ where: { barberId } })
   return (
     <div>
       <h1>Configuration</h1>
@@ -40,6 +44,7 @@ export default function schedule() {
 
         <button type="submit">Enviar</button>
       </form>
+      <DayOffPicker barberId={barberId} initialDaysOff={daysOff.map((d) => d.dayOfWeek)}/>
     </div>
   );
 }
