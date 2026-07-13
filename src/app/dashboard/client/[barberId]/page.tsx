@@ -32,6 +32,6 @@ export default async function BarberPage({params} : {params: Promise<{barberId: 
     return(<div>
 
         <h1>{barber?.name}</h1>
-        <BookingCalendar slots={slots} barberId= {barberId} blockedSlots={[]}/>
+        <BookingCalendar slots={slots} barberId= {barberId}/>
     </div>)
 }
