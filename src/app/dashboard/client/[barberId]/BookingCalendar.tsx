@@ -27,28 +27,40 @@ export default function BookingCalendar({ slots, barberId }: { slots: string[], 
     if (!selectedDate) return null
 
     return (
-        <div>
-            <DayPicker
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => date && setSelectedDate(date)}
-                captionLayout="dropdown"
-            />
+        <div className="space-y-6">
+            <div className="bg-white dark:bg-[#2C2C2E] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 flex justify-center">
+                <DayPicker
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={(date) => date && setSelectedDate(date)}
+                    captionLayout="dropdown"
+                    className="!font-sans"
+                />
+            </div>
 
-            <div>
-                {slots.map((slot) => (
-                    <button
-                        key={slot}
-                        disabled={blockedSlots.includes(slot)}
-                        className={blockedSlots.includes(slot) ? "bg-red-500 text-white" : "bg-gray-200 text-black"}
-                     onClick={() => {
-    if (blockedSlots.includes(slot)) return
-    setSelectedSlot(slot)
-}}
-                    >
-                        {slot}
-                    </button>
-                ))}
+            <div className="bg-white dark:bg-[#2C2C2E] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6">
+                <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">
+                    {selectedDate.toLocaleDateString("pt-PT", { weekday: "long", day: "numeric", month: "long" })}
+                </h2>
+                <div className="grid grid-cols-2 gap-2">
+                    {slots.map((slot) => (
+                        <button
+                            key={slot}
+                            disabled={blockedSlots.includes(slot)}
+                            onClick={() => {
+                                if (blockedSlots.includes(slot)) return
+                                setSelectedSlot(slot)
+                            }}
+                            className={`py-3 text-center rounded-xl text-sm font-medium transition-all ${
+                                blockedSlots.includes(slot)
+                                    ? "bg-red-500 text-white border border-red-600 cursor-not-allowed"
+                                    : "bg-gray-50 dark:bg-[#3A3A3C] text-gray-700 dark:text-gray-200 border border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#48484A] cursor-pointer"
+                            }`}
+                        >
+                            {slot}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {selectedSlot && (

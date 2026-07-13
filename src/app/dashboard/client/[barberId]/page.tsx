@@ -29,9 +29,17 @@ export default async function BarberPage({params} : {params: Promise<{barberId: 
 
     const slots = generateSlots(config?.weekdayStart ?? "08:00", config?.weekdayEnd ?? "20:00")
 
-    return(<div>
-
-        <h1>{barber?.name}</h1>
-        <BookingCalendar slots={slots} barberId= {barberId}/>
-    </div>)
+    return (
+        <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#1C1C1E]">
+            <header className="bg-white dark:bg-[#2C2C2E] border-b border-gray-200 dark:border-gray-800 px-6 py-4">
+                <div>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wide">Barbeiro</p>
+                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white">{barber?.name}</h1>
+                </div>
+            </header>
+            <main className="max-w-4xl mx-auto px-6 py-8">
+                <BookingCalendar slots={slots} barberId={barberId}/>
+            </main>
+        </div>
+    )
 }
