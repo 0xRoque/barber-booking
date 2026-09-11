@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import DayOffPicker from "./DayOffPicker"
+import ThemeToggle from "@/app/components/ThemeToggle"
 
 export default async function schedule() {
   const session = await auth()
@@ -8,8 +9,9 @@ export default async function schedule() {
   const daysOff = await prisma.dayOff.findMany({ where: { barberId } })
   return (
     <div className="min-h-screen bg-[#F5F5F7] dark:bg-[#1C1C1E]">
-      <header className="bg-white dark:bg-[#2C2C2E] border-b border-gray-200 dark:border-gray-800 px-6 py-4">
+      <header className="bg-white dark:bg-[#2C2C2E] border-b border-gray-200 dark:border-gray-800 px-6 py-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Configuração</h1>
+        <ThemeToggle />
       </header>
 
       <main className="max-w-2xl mx-auto px-6 py-8 space-y-6">
